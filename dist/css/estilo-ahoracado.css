@@ -1,9 +1,11 @@
 
 * {
+
+  background-color: red;
+  color: white;
   /*box-sizing: border-box;*/
 }
 .body {
-  background-color: red;
   max-width: 800px;
   margin: auto;
   display: contents;
@@ -20,7 +22,7 @@ h1 {
 }
 h1#msg-final {
   text-align: center;
-  color: crimson;
+  color: white;
   transition: all .5s ease;
   transform: scale(0);
   min-height: 50px;
@@ -32,6 +34,11 @@ h1#msg-final {
 #buttons-bar{
 
 }
+#keyboard{
+  width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+}
 #acierto {
   text-align: center;
   min-height: 24px;
@@ -41,10 +48,10 @@ h1#msg-final {
   animation: zoomInOut 1s ease;
 }
 .rojo {
-  color: red;
+  color: darkred;
 }
 .verde {
-  color: green;
+  color: darkolivegreen;
 }
 @keyframes zoomInOut {
   0% { transform: scale(0); }

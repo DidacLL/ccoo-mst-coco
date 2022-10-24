@@ -57,9 +57,9 @@ function generaABC (a,z) {
 // Chequear intento
 function intento(letra) {
   document.getElementById(letra).disabled = true;
-  if(palabra.indexOf(letra) != -1) {
+  if(palabra.indexOf(letra)!== -1) {
     for(var i=0; i<palabra.length; i++) {
-      if(palabra[i]==letra) oculta[i] = letra;
+      if(palabra[i]===letra) oculta[i] = letra;
     }
     hueco.innerHTML = oculta.join("");
     document.getElementById("acierto").innerHTML = "Bien!";
@@ -84,20 +84,20 @@ function pista() {
 
 // Compruba si ha finalizado
 function compruebaFin() {
-  if( oculta.indexOf("_") == -1 ) {
+  if( oculta.indexOf("_") === -1 ) {
     document.getElementById("msg-final").innerHTML = "Felicidades !!";
     document.getElementById("msg-final").className += "zoom-in";
     document.getElementById("palabra").className += " encuadre";
-    for (var i = 0; i < buttons.length; i++) {
+    for (let i = 0; i < buttons.length; i++) {
       buttons[i].disabled = true;
     }
     document.getElementById("reset").innerHTML = "Empezar";
     btnInicio.onclick = function() { location.reload() };
-  }else if( cont == 0 ) {
+  }else if( cont === 0 ) {
     document.getElementById("msg-final").innerHTML = "Game Over";
     document.getElementById("msg-final").className += "zoom-in";
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].disabled = true;
+    for (let j = 0; j < buttons.length; j++) {
+      buttons[j].disabled = true;
     }
     document.getElementById("reset").innerHTML = "Empezar";
     btnInicio.onclick = function () { location.reload() };
@@ -105,7 +105,7 @@ function compruebaFin() {
 }
 
 // Restablecer juego
-function inicio() {
+function start() {
   generaPalabra();
   pintarGuiones(palabra.length);
   generaABC("a","z");
@@ -114,4 +114,4 @@ function inicio() {
 }
 
 // Iniciar
-window.onload = inicio();
+window.onload = () => start();
