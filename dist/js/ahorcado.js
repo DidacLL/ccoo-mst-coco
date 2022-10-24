@@ -69,7 +69,8 @@ function intento(letra) {
     document.getElementById("intentos").innerHTML = cont;
     document.getElementById("acierto").innerHTML = "Fallo!";
     document.getElementById("acierto").className += "acierto rojo";
-    document.getElementById("image"+cont).className += "fade-in";
+    document.getElementById("image").src="dist/img/ahorcado_"+cont+".png";
+    
   }
   compruebaFin();
   setTimeout(function () { 
@@ -114,4 +115,4 @@ function start() {
 }
 
 // Iniciar
-window.onload = () => start();
+window.onload = () => inicio();
