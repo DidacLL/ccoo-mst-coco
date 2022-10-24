@@ -14,12 +14,12 @@
 <body>
   <div id="main_header" class="flex-row no-wrap">
     <h1 class="titulo">¡Que Viene el COCO!</h1>
-    <h2 class="no-wrap flex-row">Averigua quiénes te dejan colgado/a... ¡Antes que sea demasiado tarde!</h2>
+    <h2 class="subtitle">Averigua quiénes te dejan colgado/a... ¡Antes que sea demasiado tarde!</h2>
 
   </div>
   <div id="main_body" >
-    <h1 id="msg-final"></h1>
-    <h3 id="acierto"></h3>
+    <h1 id="msg-final"class="hueco"></h1>
+    <h3 id="acierto" class="hueco"></h3>
     <div class="flex-row ">
       <h2 class="palabra" id="palabra"></h2>
       <picture>
@@ -39,9 +39,10 @@
       <div class="col">
         <button onclick="start()" id="reset">Probar con otra...</button>
         <button onclick="pista()" id="pista">Dame una pista!</button>
-        <div id="hueco-pista"></div>
       </div>
+
     </div>
+    <div id="hueco-pista" class="flex-row hueco"></div>
 
         <div id="abcdario">
         </div>

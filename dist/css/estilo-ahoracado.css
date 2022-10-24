@@ -1,31 +1,37 @@
 
 * {
-
-  background-color: red;
+  background-color: rgb(219, 79, 68);
   color: white;
-  /*box-sizing: border-box;*/
+  box-sizing: border-box;
+  font-size: 12px;
 }
-.body {
-  max-width: 800px;
-  margin: auto;
-  display: contents;
+body {
+  background-color: rgb(219, 79, 68);
+
+  width: 100%;
+  height: 100%;
 }
 #main_header{
   height: 20%;
+  display: flow;
 }
 #main_body{
-  width: 100%;
+
+  width: 80%;
 }
 h1 {
+  /*background-color:  rgb(219, 79, 68);*/
   text-align: center;
   font-family: "Arial Black", sans-serif;
 }
+
 h1#msg-final {
   text-align: center;
   color: white;
+  /*background-color: rgb(219, 79, 68);*/
   transition: all .5s ease;
   transform: scale(0);
-  min-height: 50px;
+  min-height: 5em;
   margin-bottom: 0;
 }
 .zoom-in {
@@ -51,7 +57,7 @@ h1#msg-final {
   color: darkred;
 }
 .verde {
-  color: darkolivegreen;
+  color: palegreen;
 }
 @keyframes zoomInOut {
   0% { transform: scale(0); }
@@ -62,7 +68,8 @@ h1#msg-final {
 h2.palabra {
   margin: 0 auto 25px auto;
   text-align: center;
-  color: royalblue;
+  font-weight: bolder;
+  color: white;
   text-transform: uppercase;
   letter-spacing: 6px;
 }
@@ -70,6 +77,7 @@ picture{
   margin-top: 20%;
 }
 .flex-row {
+  /*margin-top: 1em;*/
   position: center;
   display: flex;
   /*justify-content: center;*/
@@ -80,21 +88,39 @@ picture{
   flex-wrap: nowrap !important;
 }
 .col {
-  width: 50%;
+  /*width: 50%;*/
   text-align: center;
 }
 .col span {
 
 }
+.keyboard-btn{
+  font-family: "Arial Black", Arial, SansSerif, sans-serif;
+  margin: 0;
+  font-size: 1.5em;
+  width: 3em;
+}
 #turnos{
-  margin-top: 20%;
+  margin-top: 4em;
   /*padding-top: 100%;*/
 }
-h3 span {
-   color: orangered;
+button{
+  font-family: Arial, SansSerif, sans-serif;
+  font-weight: bold;
+  padding: 1em;
+  margin: 1em;
+}
+button:hover{
+  color: brown;
+  background-color: #ffcece;
+}
+h3 {
+   color: #ffcece;
+  font-family: "Arial Black", SansSerif, sans-serif;
+  font-weight: bold;
 }
 .letra:disabled {
-  color:rgba(255, 0, 0, 0.5);
+  color:darkred;
 }
 picture {
   position: relative;
@@ -114,6 +140,14 @@ picture img {
   opacity: 1 !important;
 }
 .encuadre {
-  border: 2px dashed crimson;
+  /*border: 2px dashed crimson;*/
   padding: 3px 2px 2px 6px;
+}
+.subtitle{
+  display: block;
+}
+.hueco{
+  min-height: 1em;
+  width: 100%;
+  margin-bottom: 1em;
 }

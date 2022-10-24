@@ -47,9 +47,9 @@ function generaABC (a,z) {
   var letra = "";
   for( ; i<=j; i++) {
     letra = String.fromCharCode(i).toUpperCase();
-    document.getElementById("abcdario").innerHTML += "<button value='" + letra + "' onclick='intento(\"" + letra + "\")' class='letra' id='"+letra+"'>" + letra + "</button>";
+    document.getElementById("abcdario").innerHTML += "<button class= 'keyboard-btn' value='" + letra + "' onclick='intento(\"" + letra + "\")' class='letra' id='"+letra+"'>" + letra + "</button>";
     if(i==110) {
-      document.getElementById("abcdario").innerHTML += "<button value='Ñ' onclick='intento(\"Ñ\")' class='letra' id='"+letra+"'>Ñ</button>";
+      document.getElementById("abcdario").innerHTML += "<button class= 'keyboard-btn' value='Ñ' onclick='intento(\"Ñ\")' class='letra' id='"+letra+"'>Ñ</button>";
     }
   }
 }
