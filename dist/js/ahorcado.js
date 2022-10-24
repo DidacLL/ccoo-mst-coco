@@ -43,12 +43,12 @@ function pintarGuiones(num) {
 //Generar abecedario
 function generaABC (a,z) {
   document.getElementById("abcdario").innerHTML = "";
-  var i = a.charCodeAt(0), j = z.charCodeAt(0);
-  var letra = "";
+  let i = a.charCodeAt(0), j = z.charCodeAt(0);
+  let letra = "";
   for( ; i<=j; i++) {
     letra = String.fromCharCode(i).toUpperCase();
     document.getElementById("abcdario").innerHTML += "<button class= 'keyboard-btn' value='" + letra + "' onclick='intento(\"" + letra + "\")' class='letra' id='"+letra+"'>" + letra + "</button>";
-    if(i==110) {
+    if(i===110) {
       document.getElementById("abcdario").innerHTML += "<button class= 'keyboard-btn' value='Ñ' onclick='intento(\"Ñ\")' class='letra' id='"+letra+"'>Ñ</button>";
     }
   }
@@ -89,6 +89,7 @@ function compruebaFin() {
     document.getElementById("msg-final").innerHTML = "Felicidades !!";
     document.getElementById("msg-final").className += "zoom-in";
     document.getElementById("palabra").className += " encuadre";
+    document.getElementById("hueco-pista").innerHTML = "";
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].disabled = true;
     }
@@ -104,6 +105,13 @@ function compruebaFin() {
     btnInicio.onclick = function () { location.reload() };
   }
 }
+document.onkeydown = function(evt) {
+  let charCode = evt.code;
+  console.log(charCode);
+  var charStr = charCode.charAt(charCode.length-1);
+  document.getElementById(charStr).click();
+};
+
 
 // Restablecer juego
 function start() {
@@ -115,4 +123,4 @@ function start() {
 }
 
 // Iniciar
-window.onload = () => inicio();
+window.onload = start();

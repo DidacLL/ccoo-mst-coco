@@ -113,14 +113,16 @@ button:hover{
   color: brown;
   background-color: #ffcece;
 }
+button:active{
+  color: black;
+  background-color: #ffcece;
+}
 h3 {
    color: #ffcece;
   font-family: "Arial Black", SansSerif, sans-serif;
   font-weight: bold;
 }
-.letra:disabled {
-  color:darkred;
-}
+
 picture {
 
 width: 50%;
@@ -150,4 +152,7 @@ width: 50%;
   min-height: 1em;
   width: 100%;
   margin-bottom: 1em;
+}
+.keyboard-btn:disabled {
+  color:darkred;
 }
