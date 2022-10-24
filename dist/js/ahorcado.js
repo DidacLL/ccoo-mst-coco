@@ -101,8 +101,9 @@ function compruebaFin() {
     for (let j = 0; j < buttons.length; j++) {
       buttons[j].disabled = true;
     }
-    document.getElementById("reset").innerHTML = "Empezar";
-    btnInicio.onclick = function () { location.reload() };
+    setTimeout(function () {
+      location.reload();
+    }, 2000);
   }
 }
 document.onkeydown = function(evt) {
