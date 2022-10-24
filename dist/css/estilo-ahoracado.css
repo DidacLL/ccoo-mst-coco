@@ -127,12 +127,12 @@ width: 50%;
   /*height: fit-content;*/
   /*alignment: right;*/
 
-  border: blue solid 5px;
+  /*border: blue solid 5px;*/
   max-height: 150px;
 }
 #image {
 
-  border: blue solid 2px;
+  /*border: blue solid 2px;*/
   height: 100%;
 
 }
