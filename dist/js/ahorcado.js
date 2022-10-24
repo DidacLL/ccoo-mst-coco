@@ -3,7 +3,7 @@
 // Array de palabras
 var palabras = [["barcelo", "Presidente y vicepresidenta de MST. Padre e hija. Una misma cosa, un mismo apellido"],
   ["patronal", "Dentro del sector Contact Center, la asociación CEX, es la…"],
-  ["cgt", "Compañeros/as de trabajo y delegadas sindicales que ahora representan a la empresa en puestod como coordinación, planificación, RRHH"],
+  ["cgt", "Compañeros/as de trabajo y delegadas sindicales que ahora representan a la empresa en puestos como coordinación, planificación, RRHH"],
   ["bajamedica", "El despido por bajo rendimiento en MST, en la mayoría de casos en realidad es por la…"],
   ["convenio", "Lleva 3 años caducado pero en ultraactividad, la Patronal pone palos en las ruedas y entorpece las negociaciones. Casi no ha habido avances en el futuro…"],
  ];
