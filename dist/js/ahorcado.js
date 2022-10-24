@@ -1,7 +1,12 @@
 // ### VARIABLES ###
 
 // Array de palabras
-var palabras = [["atlantico", "Un océano"], ["ordenador", "Una máquina"], ["laurel", "Un árbol"], ["plaza", "Espacio público"], ["rueda", "Gran invento"], ["cereza", "Una fruta"], ["petanca", "Un juego"], ["higuera", "Un árbol"], ["everest", "Un monte"], ["relampago", "Antecede al trueno"], ["jirafa", "Un animal"], ["luxemburgo", "Un país"], ["uruguay", "Un país"], ["ilustracion", "Representación gráfica"], ["excursion", "Actividad en la naturaleza"], ["empanadilla", "De la panadería"], ["pastel", "De la pastelería"], ["colegio", "Lugar para estudiar"], ["carrera", "Competición"], ["mermelada", "Confitura"]];
+var palabras = [["barcelo", "Presidente y vicepresidenta de MST. Padre e hija. Una misma cosa, un mismo apellido"],
+  ["patronal", "Dentro del sector Contact Center, la asociación CEX, es la…"],
+  ["cgt", "Compañeros/as de trabajo y delegadas sindicales que ahora representan a la empresa en puestod como coordinación, planificación, RRHH"],
+  ["bajamedica", "El despido por bajo rendimiento en MST, en la mayoría de casos en realidad es por la…"],
+  ["convenio", "Lleva 3 años caducado pero en ultraactividad, la Patronal pone palos en las ruedas y entorpece las negociaciones. Casi no ha habido avances en el futuro…"],
+ ];
 // Palabra a averiguar
 var palabra = "";
 // Nº aleatorio
@@ -22,7 +27,7 @@ var btnInicio = document.getElementById("reset");
 
 // Escoger palabra al azar
 function generaPalabra() {
-  rand = (Math.random() * 19).toFixed(0);
+  rand = (Math.random() * Math.max(0,palabras.length-1)).toFixed(0);
   palabra = palabras[rand][0].toUpperCase();
   console.log(palabra);
 }

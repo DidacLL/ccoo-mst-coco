@@ -1,15 +1,22 @@
 
 * {
-  box-sizing: border-box;
+  /*box-sizing: border-box;*/
 }
-.main-container {
+.body {
+  background-color: red;
   max-width: 800px;
   margin: auto;
+  display: contents;
 }
-h1.titulo {
-  margin: 50px auto 80px auto;
+#main_header{
+  height: 20%;
+}
+#main_body{
+  width: 100%;
+}
+h1 {
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: "Arial Black", sans-serif;
 }
 h1#msg-final {
   text-align: center;
@@ -21,6 +28,9 @@ h1#msg-final {
 }
 .zoom-in {
   transform: scale(1) !important;
+}
+#buttons-bar{
+
 }
 #acierto {
   text-align: center;
@@ -49,11 +59,15 @@ h2.palabra {
   text-transform: uppercase;
   letter-spacing: 6px;
 }
+picture{
+  margin-top: 20%;
+}
 .flex-row {
+  position: center;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 10px auto; 
+  /*justify-content: center;*/
+  /*flex-wrap: wrap;*/
+  /*margin: 10px auto;*/
 }
 .no-wrap {
   flex-wrap: nowrap !important;
@@ -63,10 +77,11 @@ h2.palabra {
   text-align: center;
 }
 .col span {
-  
+
 }
-#turnos h3 {
-  margin: auto;
+#turnos{
+  margin-top: 20%;
+  /*padding-top: 100%;*/
 }
 h3 span {
    color: orangered;
