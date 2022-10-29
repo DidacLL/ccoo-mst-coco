@@ -202,8 +202,10 @@ h2{
     position: absolute;
     margin: calc(50% + 1em) 35% 35%;
     color: white;
+    opacity: 50%;
 }
 .card-body>.spinner-border{
+    opacity: 50%;
     margin-top: calc(50% - 1em);
     color: rgba(128, 128, 128, 0.77);
 }

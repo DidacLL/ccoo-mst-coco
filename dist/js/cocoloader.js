@@ -1,6 +1,8 @@
 //----------------------------------------------------------------------------------------------------- Global Variables
 let resizeTimer;
 let currentContent;
+const header=document.querySelector("#main_header")
+const body=document.querySelector('#main_body')
 const pages= Object.freeze({
     Home: Symbol("home"|0),
     Comunicados: Symbol("comunicados"|1),
@@ -25,7 +27,13 @@ function loadHome() {
     
 }
 
+function cleanAllContent() {
+    body.innerHTML="";
+    currentContent=null;
+}
+
 function changeCurrentContent(page) {
+    
     cleanAllContent();
     switch (page) {
         case pages.Home:
@@ -53,14 +61,16 @@ function changeCurrentContent(page) {
     }
 }
 
-function loadFile(path){
+function loadFile(path,elem){
     let xhttp;
-
     if(path){
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange= function (){
-            if(this.readyState==4){
-                if(this.status==200){console.log(this.responseText)}
+            if(this.readyState===4){
+                if(this.status===200){
+                    elem.innerHTML=this.responseText;
+                    console.log(this.responseText);
+                    }
             }
         }
         xhttp.open("GET",path,true);
@@ -71,7 +81,7 @@ function loadFile(path){
 
 window.onload= function (){
     console.log("starting on load")
-    loadFile('../dist/content/comunicados/test1.txt');
+    loadFile('../dist/content/about/intro.txt',body.children.item(1).children.item(1));
     // changeCurrentContent(pages.Home);
     cocoResize();
 }
