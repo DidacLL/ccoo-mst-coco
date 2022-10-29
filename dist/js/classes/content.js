@@ -1,4 +1,6 @@
-class Content {
+import saveAs from "../FileSaver";
+
+class Card {
     title;
     description;
     article;
@@ -9,25 +11,19 @@ class Content {
         this.title=title;
         this.description = description;
         this.article=article;
-        this.img_src=img_src;
+        this.img_src=img_src.contains('/')?img_src:'./dist/img/'+img_src;
         this.link=link;
     }
 }
-//Read rootFolder.txt File
-fetch("./rootFolder.txt").then(function(response) {
-    return response
-}).then(function(data) {
-    return data.text()
-}).then(function(Normal) {
-    document.getElementById("app").innerHTML = Normal;
-}).catch(function(err) {
-    console.log('Fetch problem show: ' + err.message);
-});
+class Download extends Card{
 
+    constructor(title,description,file_src,) {
+        file_src= file_src.contains("/")?file_src:'./dist/files'
+        super(title,description,null,file_src,null);
+    }
+}
 
-//Read InsideFolder.txt File
-fetch("./src/insideFolder.txt").then(function(response) {
-    response.text().then(function(text) {
-        document.getElementById("appData").innerHTML =text
-    });
-});
+function saveDataToFile(data,name) {
+    var blob = new Blob(data, { type: "text/plain;charset=utf-8" });
+    saveAs(blob,name+".json");
+}

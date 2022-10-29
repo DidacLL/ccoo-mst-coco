@@ -21,31 +21,49 @@ window.onresize=function (){
     resizeTimer=setTimeout(function (){cocoResize()},100);
 }
 
+function loadHome() {
+    
+}
+
 function changeCurrentContent(page) {
+    cleanAllContent();
     switch (page) {
-        case pages.Home: loadHome();
-        case pages.Comunicados: load();
-        case pages.Pildoras: loadHome();
-        case pages.Plantillas: loadHome();
+        case pages.Home:
+            loadHome();
+            break;
+        
+        case pages.Comunicados:
+            load();
+            break;
+        case pages.Pildoras: 
+            
+            break;
+        case pages.Plantillas:
+            break;
+        case pages.Magazines:
+            break;
+        case pages.About:
+            break;
 
-
+        case pages.Documentos:
+            break;
+        case pages.Tools:
+            break;
+        default:
     }
 }
 
-function loadIndex(filename){
-    console.log('loading index')
+function loadFile(path){
     let xhttp;
-    let file= './'+filename;
-    console.log(file)
 
-    if(file){
+    if(path){
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange= function (){
             if(this.readyState==4){
                 if(this.status==200){console.log(this.responseText)}
             }
         }
-        xhttp.open("GET",`dist/content/${file}`,true);
+        xhttp.open("GET",path,true);
         xhttp.send();
         return;
     }
@@ -53,7 +71,7 @@ function loadIndex(filename){
 
 window.onload= function (){
     console.log("starting on load")
-    loadIndex('comunicados/test1.txt');
+    loadFile('../dist/content/comunicados/test1.txt');
     // changeCurrentContent(pages.Home);
     cocoResize();
 }
