@@ -129,7 +129,7 @@ h2{
     /*width: 100%;*/
 }
 .card-body{
-    height: 20vh;
+    height: 30vh;
     text-align: center;
  }
 .card-text{
@@ -190,13 +190,20 @@ h2{
     height: 50%;
     background-color: indianred;
     text-align: center;
+    display: flex;
+}
+.card-header>img{
+    height: 100%;
+    opacity: 30%;
 }
 
 .card-header>.spinner-border{
-    margin-top: calc(50% + 1em);
+
+    position: absolute;
+    margin: calc(50% + 1em) 35% 35%;
     color: white;
 }
 .card-body>.spinner-border{
-    margin-top: calc(50% + 1em);
+    margin-top: calc(50% - 1em);
     color: rgba(128, 128, 128, 0.77);
 }
