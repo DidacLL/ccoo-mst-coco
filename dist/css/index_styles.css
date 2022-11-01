@@ -1,6 +1,7 @@
 body{
     /*overflow: hidden;*/
     /*font-size: 1vw;*/
+    overflow: hidden;
 }
 button{
     all: unset !important;
@@ -16,7 +17,12 @@ button{
 
 .navbar{
     padding-top: 0!important;
-    margin-top: 0!important;
+    margin: 0!important;
+    padding-bottom: 0!important;
+    background-color: white!important;
+}
+.nav-item{
+    margin-left: 1em;
 }
 
 
