@@ -24,5 +24,8 @@ button{
 .nav-item{
     margin-left: 1em;
 }
+#logo{
+    max-height: min(5em,10vh);"
+}
 
 
