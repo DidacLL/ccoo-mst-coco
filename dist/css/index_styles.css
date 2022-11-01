@@ -1,0 +1,21 @@
+body{
+    overflow: hidden;
+}
+button{
+    all: unset !important;
+    border: none!important;
+}
+
+@media (hover: hover) {
+.navbar-brand:hover{
+    transform: scale(105%);
+    /*opacity: 75%;*/
+}
+    }
+
+.navbar{
+    padding-top: 0!important;
+    margin-top: 0!important;
+}
+
+

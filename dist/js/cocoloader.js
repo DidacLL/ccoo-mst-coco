@@ -2,7 +2,7 @@
 let resizeTimer;
 let currentContent;
 const header=document.querySelector("#main_header")
-const body=document.querySelector('#main_body')
+const body=document.querySelector('#colg_body')
 const pages= Object.freeze({
     Home: Symbol("home"|0),
     Comunicados: Symbol("comunicados"|1),
