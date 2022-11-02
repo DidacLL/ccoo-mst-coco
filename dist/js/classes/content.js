@@ -1,18 +1,28 @@
 import saveAs from "../FileSaver";
 
 class Card {
-    title;
-    description;
-    article;
-    img_src;
-    link;
+    content;
+    html;
+    element;
 
-    constructor(title,description,article,img_src,link) {
-        this.title=title;
-        this.description = description;
-        this.article=article;
-        this.img_src=img_src.contains('/')?img_src:'./dist/img/'+img_src;
-        this.link=link;
+    constructor(content) {
+        this.html=this.constructHtml(content);
+
+    }
+
+    constructHtml(content){
+        return `<div id="card_${content.filename}" class="card">
+                    <div class="card-header">
+                        <img class="card-img-top" src="${content.img_src}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                          <h5 class="card-title">${content.title}</h5>
+                          <p class="card-text">${content.description}</p>  
+                    </div>
+               </div>`
+    }
+    action(){
+
     }
 }
 class Download extends Card{
@@ -22,8 +32,27 @@ class Download extends Card{
         super(title,description,null,file_src,null);
     }
 }
+class Content {
+    title;
+    card_description;
+    article;
+    img_src;
+
+
+    constructor(title, card_description, article, img_src) {
+        this.title = title;
+        this.card_description = card_description;
+        this.article = article;
+        this.img_src = img_src;
+
+        this.title=title;
+        this.filename=filename.replace('.json','');
+    }
+}
 
 function saveDataToFile(data,name) {
     var blob = new Blob(data, { type: "text/plain;charset=utf-8" });
     saveAs(blob,name+".json");
 }
+
+
