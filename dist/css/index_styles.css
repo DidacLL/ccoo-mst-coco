@@ -6,6 +6,8 @@ body{
 button{
     all: unset !important;
     border: none!important;
+    border-radius: 2em!important;
+    color: white!important;
 }
 
 @media (hover: hover) {
