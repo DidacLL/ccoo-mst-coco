@@ -99,6 +99,14 @@
     .card.expanded:hover{
         transform: scale(98%);
     }
+    #editor-header>button:hover:not([disabled]) {
+        background-color: darksalmon!important;
+    }
+
+    .btn-primary:hover:not([disabled]) {
+        color: white;
+        background-color: darksalmon!important;
+    }
 }
 
 .card:active{
@@ -115,6 +123,23 @@
     font-weight: bold!important;
     font-max-size: 6rem;
 }
+#editor-header>h2{
+    text-wrap: none;
+}
+#editor-header>button{
+    text-align: center!important;
+    width: min(10rem,18vw)!important;
+    background-color: crimson!important;
+    margin-bottom: 1em!important;
+}
+#editor-header>button:disabled{
+    background-color: lightgray!important;
+}
+#editor-header{
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+}
 button.btn-primary{
     color: white!important;
     border-radius: 2rem;!important;
@@ -124,12 +149,7 @@ button.btn-primary{
 }
 .btn-primary:disabled {
     color: white!important;
-    background-color: gray!important;
-}
-
-.btn-primary:hover:not([disabled]) {
-    color: white;
-    background-color: darksalmon!important;
+    background-color: lightgray!important;
 }
 .btn-primary:active:not([disabled]) {
     background-color: white!important;
@@ -166,8 +186,8 @@ button.btn-primary{
     box-shadow: 0.1em 0.5em 0.5em darkred;
     max-width: 100%;
     max-height: 100%;
-    min-height: 10em;
-    overflow-y: scroll;
+    /*min-height: 10em;*/
+    overflow-y: auto;
     margin:1em;
     border: crimson;
     border-radius: 1em;
