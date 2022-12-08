@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------------------------------- Global Variables
-import {ContentLoader} from "./content.js";
+import {constructCard, ContentLoader} from "./content.js";
 import {Card} from "./content.js";
 import {PAGES} from "./content.js";
 
@@ -137,7 +137,10 @@ function loadCocoData() {
             if (this.status === 200) {
 
                 console.log('COCO-DATA.JSON loaded!!')
+                // contentVault=Object.assign(new ContentLoader(), this.responseText);
                 contentVault = new ContentLoader(this.responseText);
+                contentVault.addAllSectionContent(document.querySelector('#main_body'),PAGES[0]);
+
                 console.log(contentVault)
             } else {
                 console.log('Failed to load COCO-DATA.JSON')
@@ -308,7 +311,7 @@ function updateMainBody() {
 }
 
 function saveNewCard() {
-    let section=PAGES[document.querySelector('#section-select').value].name;
+    let section=PAGES[document.querySelector('#section-select').value];
     
     contentVault.addContent(newContent,section);
     newContent=null;
@@ -343,12 +346,13 @@ function saveAllChanges() {
 function processContent() {
 
     let value = document.querySelector("#type-select").value;
-    newContent = new Card(
+    newContent = constructCard(
         document.querySelector("#card-title").value,
         document.querySelector("#card-description").value,
         value == 1 ? document.querySelector("#card-content").value : null,
         document.querySelector("#card-picture").value,
-        value == 2 ? document.querySelector("#card-action").value : null
+        value == 2 ? document.querySelector("#card-action").value : null,
+        PAGES[document.querySelector('#section-select').value]
     );
 
     let preview = document.querySelector('#preview');

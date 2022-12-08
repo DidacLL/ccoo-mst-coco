@@ -9,47 +9,47 @@ export const PAGES= Object.freeze([
     {name:"about",num:7}
 ])
 
-function constructPage(pageName) {
-
-}
-//from https://www.xul.fr/javascript/map-and-object.php
-    function mapToObject(m) {
-        let lo = {}
-        for (let [k, v] of m) {
-            if (v instanceof Map) {
-                lo[k] = mapToObject(v)
-            } else {
-                lo[k] = v
-            }
-        }
-        return lo
-    }
-
-    function objectToMap(o) {
-        let m = new Map()
-        for (let k of Object.keys(o)) {
-            if (o[k] instanceof Object) {
-                m.set(k, objectToMap(o[k]))
-            } else {
-                m.set(k, o[k])
-            }
-        }
-        return m
-    }
-
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+//---CONTENT---------------------------CONTENT LOADER----------------------LOADER---------------------------------------
+//---------------------------------------------------------------------------------------------------CONTENT------------
+//---------------------------------------------------------------------------------------------------LOADER-------------
 export class ContentLoader {
-    pages
+    pages;
     lastUpdate
     unsavedData
     constructor(json) {
         if(json==null) {
-            this.pages= new Map();
-            PAGES.forEach(page=> this.pages.set(page.name,new Map()));
+            this.pages=[];
+            PAGES.forEach(page=> this.pages.push([]));
             this.updateDate();
             console.log(this);
             this.unsavedData=true;
         }else{
-            this.pages = objectToMap(JSON.parse(json));
+            this.pages=[];
+            let obj=JSON.parse(json,cardReviver());
+            console.log(obj)
+            this.lastUpdate=obj.lastUpdate;
+            this.unsavedData=false;
+            for (let i = 0; i < obj.pages.length; i++) {
+                this.pages[i]=[];
+                for(let j = 0; j< obj.pages[i].length;j++){
+                    const rawCard = obj.pages[i][j];
+                    if(rawCard){
+                        this.pages[i][j] = new Card(rawCard.title,
+                            rawCard.card_description,
+                            rawCard.article,
+                            rawCard.img_src,
+                            rawCard.url,
+                            rawCard.id,
+                            rawCard.date,
+                            rawCard.section);
+                        console.log(this.pages[i][j])
+                    }
+                }
+            }
+
+            // this.pages = JSON.parse(json);
             this.unsavedData=false;
         }
     }
@@ -62,34 +62,35 @@ export class ContentLoader {
     saveContentData() {
         this.updateDate();
         this.unsavedData=false;
-        download(JSON.stringify(mapToObject(this.pages)), 'cocodata');
+        download(JSON.stringify(this), 'cocodata');
     }
 
     addContent(card,section){
-        if(!isNaN(section))section=PAGES[section].name;
+        if(!isNaN(section))section=PAGES[section];
         this.unsavedData=true;
         this.updateDate()
         card.date=new Date();
-        console.log(section)
-        this.pages.get(section).set(card.id,card);
+        console.log(section+" pages conytent is: \n" + this.pages)
+        this.pages[section.num].push(card);
     }
     removeContent(card){
         this.unsavedData=true;
         this.pages.remove(card);
     }
     getSection(section){
-        console.log('Get section: '+section);
-        if(!isNaN(section))section=PAGES[section];
-        return this.pages.get(section);
-
+        // if(!isNaN(section))section=PAGES[section];
+        console.log('Get section: '+section.name);
+        console.log(this)
+        return this.pages[section.num];
     }
     getContent(section,id){
         //todo
     }
 
     addAllSectionContent(target,section){
-        let list = Array.from(this.getSection(section).values());
-        list= list.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+        console.log('adding content to '+ section)
+        let list = this.getSection(section);
+        // list= list.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
         for (let i = 0; i < list.length; i++) {
             console.log(list[i])
             target.insertAdjacentHTML('beforeend',list[i].getHtml())
@@ -99,6 +100,38 @@ export class ContentLoader {
 
     }
 }
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
+//----///////--------///\\-------||\\\\\-----||\\\\\-------------------------------------------------------------------
+//----||------------//---\\------||----\\----||----\\-------------------------------------------------------------------
+//----||-----------//-----\\-----||----//----||-----\\------------------------------------------------------------------
+//----||----------//////\\\\\----||///\\-----||-----//------------------------------------------------------------------
+//----||---------//---------\\---||----\\----||----//-------------------------------------------------------------------
+//----\\\\\\\---//-----------\\--||-----\\---||/////--------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+export function constructCard(title, card_description, article, img_src,url,section) {
+    if(url!=null){
+        url=url.includes('./')||url.includes('http')?url.trim():'https://'+url.trim();
+    }else {
+        url=null;
+    }
+    console.log('adding new card: '+ title)
+    return new Card(title.trim(),
+        card_description.trim(),
+        article == null ? null : article,
+        img_src.includes("/")?img_src.trim():'./dist/img/'+img_src.trim(),
+        url,
+        section.num+"_"+title.trim().replace(/[^0-9a-zA-Z_]/g, "").toLowerCase(),
+        new Date(),
+        section)
+}
+
 export class Card {
     title;
     card_description;
@@ -107,25 +140,36 @@ export class Card {
     url;
     id;
     date;
-    constructor(title, card_description, article, img_src,url) {
-        console.log(article)
-        this.title = title.trim();
-        this.card_description = card_description.trim();
-        this.article = article==null?null:article;
-        this.id=title.trim().replace(/[^0-9a-zA-Z_ ]/g, "").replace(' ',"_").toLowerCase();
-
-        if(url!=null){
-            url=url.trim();
-            this.url = url.includes('./')?url:url.includes('http')?url.trim():'https://'+url.trim();
-        }
-        this.img_src = img_src.includes("/")?img_src.trim():'./dist/img/'+img_src.trim();
+    section;
+    expanded;
+    html;
+    expandedHtml;
+   
+    constructor( title,card_description,article,img_src,url,id,date,section) {
         this.title=title;
-        Object.defineProperty(this, 'expanded', {value: 'static', writable: true});
+        this.card_description=card_description;
+        this.article=article;
+        this.img_src=img_src;
+        this.url=url;
+        this.id=id;
+        this.date=date;
+        this.section=section;
         this.expanded=false;
         this.constructHtml();
-        console.log('HTML: '+ this.html)
-        console.log('JSON: ')
-        console.log(JSON.stringify(this))
+
+    }
+    toJSON () {
+        return {
+            '@type':'card',
+            title: this.title,
+            card_description: this.card_description,
+            article:this.article,
+            img_src:this.img_src,
+            url:this.url,
+            id:this.id,
+            date:this.date,
+            section:this.section
+        };
     }
     activate() {
         let auxId= (this.expanded?'#ex_card_':'#card_')+this.id
@@ -157,7 +201,6 @@ export class Card {
         window.open(this.url, '_blank').focus();
     }
     constructHtml(){
-        Object.defineProperty(this, 'html', {value: 'static', writable: true});
         let auxId= 'card_'+ this.id;
         const urlTag= this.url==null?'':'<div class="btn btn-primary">Abrir</a>\n'
         return this.html=`<div id="${auxId}"class="card">
@@ -172,8 +215,6 @@ export class Card {
                </div>`
     }
     constructExpandedHtml(){
-        Object.defineProperty(this, 'expandedHtml', {value: 'static', writable: true});
-
         let auxId= 'ex_card_'+this.id;
         return this.expandedHtml=`<div id="${auxId}"class="card expanded">
                     <div class="card-header expanded">
@@ -196,9 +237,15 @@ export class Card {
     }
 }
 function download(content, fileName) {
-    var a = document.createElement("a");
-    var file = new Blob([content], {type:  "application/json"});
+    let a = document.createElement("a");
+    let file = new Blob([content], {type: "application/json"});
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.click();
+}
+function cardReviver (key, value) {
+    if (value?.['@type'] === 'card') {
+        return new Card(value.title, value.card_description, value.article, value.img_src,value.url,value.id,value.date,value.section);
+    }
+    return value;
 }
