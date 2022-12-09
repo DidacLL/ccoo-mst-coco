@@ -219,10 +219,10 @@ export class Card {
         return this.expandedHtml=`<div id="${auxId}"class="card expanded">
                     <div class="card-header expanded">
                         <img class="card-img-top expanded" id="${auxId}_img" src="${this.img_src}" alt="Card image cap">
-                        <h5 class="card-title">${this.title}</h5>
                     </div>
                     <div class="card-body expanded">
-                          <div class="card-text expanded">${this.article}</div>  
+                        <h5 class="card-title">${this.title}</h5>
+                        <div class="card-text expanded">${this.article}</div>  
                     </div>
                </div>`
     }
