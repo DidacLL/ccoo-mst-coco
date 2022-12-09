@@ -177,6 +177,7 @@ export class Card {
             auxId = '#ex_card_' + this.id;
             oldElem.remove();
             this.activate()
+            document.querySelector('#main_body').scroll(0,0)
             return document.querySelector(auxId)
         }
         this.expanded=false;
