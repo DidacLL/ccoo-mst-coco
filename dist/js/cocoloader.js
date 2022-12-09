@@ -1,8 +1,6 @@
 //----------------------------------------------------------------------------------------------------- Global Variables
-import {constructCard, ContentLoader} from "./content.js";
-import {Card} from "./content.js";
-import {PAGES} from "./content.js";
-
+import {constructCard, ContentLoader,PAGES} from "./content.js";
+let currentSection;
 const COCODATA_PATH = '../dist/cocodata.json';
 
 const EDITOR_HTML = `
@@ -15,7 +13,6 @@ const EDITOR_HTML = `
 <form class="m-5">
     <label for="section-select"> Selecciona la sección </label>
     <select id="section-select" class="form-control sm-10 m-3">
-        <option selected value="-1"> elige...</option>
                 <option value="0">Home</option>
                 <option value="1">Comunicados</option>
                 <option value="2">Documentos</option>
@@ -69,7 +66,7 @@ const body = document.querySelector('#colg_body')
 
 let contentVault;
 let mainResumeContent;
-let editMode = false;
+export let editMode = false;
 
 //----------------------------------------------------------------------------------------------------- Listeners
 window.onresize = function () {
@@ -77,40 +74,6 @@ window.onresize = function () {
     resizeTimer = setTimeout(function () {
         cocoResize()
     }, 100);
-}
-
-function cleanAllContent() {
-    body.innerHTML = "";
-    currentContent = null;
-}
-
-function changeCurrentContent(page) {
-
-    cleanAllContent();
-    // switch (page) {
-    //     case pageNames.Home:
-    //         loadHome();
-    //         break;
-    //    
-    //     case pageNames.Comunicados:
-    //         load();
-    //         break;
-    //     case pageNames.Pildoras: 
-    //        
-    //         break;
-    //     case pageNames.Plantillas:
-    //         break;
-    //     case pageNames.Magazines:
-    //         break;
-    //     case pageNames.About:
-    //         break;
-    //
-    //     case pageNames.Documentos:
-    //         break;
-    //     case pageNames.Tools:
-    //         break;
-    //     default:
-    // }
 }
 
 function loadFile(path, elem) {
@@ -139,7 +102,7 @@ function loadCocoData() {
                 console.log('COCO-DATA.JSON loaded!!')
                 // contentVault=Object.assign(new ContentLoader(), this.responseText);
                 contentVault = new ContentLoader(this.responseText);
-                contentVault.addAllSectionContent(document.querySelector('#main_body'),PAGES[0]);
+                contentVault.addAllSectionContent(document.querySelector('#main_body'),currentSection);
 
                 console.log(contentVault)
             } else {
@@ -153,6 +116,7 @@ function loadCocoData() {
 }
 
 function closeEditMode() {
+    changeSection(PAGES[document.querySelector('#section-select').value]);
     removeAllChildNodes(document.querySelector('#blank_space'))
     document.body.style.overflow = 'hidden';
     editMode = false;
@@ -180,13 +144,19 @@ function setMenuListeners() {
     document.querySelector('#menu-publish-btn').addEventListener('click', () => openEditMode());
     document.querySelectorAll('.dropdown-item')
         .forEach(item => item.addEventListener('click', () => item !== document.querySelector('#menu-publish-btn') ? changeMenu() : null));
+    for (let i = 0; i < PAGES.length; i++) {
+        let name= '#ddbtn-'+i
+        console.log('create listener for '+name)
+        document.querySelector(name).addEventListener('click',()=>changeSection(PAGES[i]))
+    }
 }
 
 window.onload = function () {
-    console.log("starting on load")
     // changeCurrentContent(pages.Home);
     cocoResize();
+    currentSection=PAGES[0];
     if (!contentVault) loadCocoData();
+    
     setMenuListeners();
 
 }
@@ -195,6 +165,7 @@ window.onload = function () {
 function cocoResize() {
 
 }
+
 
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
@@ -207,6 +178,8 @@ function createForm() {
     saveBtn.disabled = !contentVault.unsavedData;
     saveBtn.addEventListener('click', () => saveAllChanges());
     document.querySelector("#section-select").addEventListener("change", () => checkSelector());
+    document.querySelector("#section-select").value=currentSection.num;
+
     document.querySelector("#type-select").addEventListener("change", () => checkType());
     document.querySelector("#btn-generate").disabled = true;
     document.querySelector("#btn-cancel").addEventListener("click", () => closeEditMode())
@@ -236,8 +209,8 @@ function checkType() {
     let formContentBox = document.querySelector('#content-box');
 
     function loadContentList() {
-        let pagename = PAGES[document.querySelector('#select-section-link').value].name;
-        console.log('LOADING SECTION LIST: ' + pagename);
+        let pagename = PAGES[document.querySelector('#select-section-link').value];
+        console.log('LOADING SECTION LIST: ' + pagename.name);
         if (contentVault) {
             let section = contentVault.getSection(pagename);
             let contSelect = document.querySelector('#select-content-link');
@@ -276,7 +249,6 @@ function checkType() {
         <p class="label row no-wrap m-2" >Destination</p>
         <div class="form-outline row no-wrap m-2">
             <select  id="select-section-link" class="form-control sm-10 m-3">
-                <option selected value="-1"> elige...</option>
                 <option value="0">Home</option>
                 <option value="1">Comunicados</option>
                 <option value="2">Documentos</option>
@@ -298,6 +270,8 @@ function checkType() {
 }
 
 function checkSelector() {
+    console.log("Selector listener!")
+    changeSection(PAGES[document.querySelector('#section-select').value]);
     expandOptions(document.querySelector('#section-select').value >= 0
         && document.querySelector('#type-select').value > 0);
 }
@@ -310,6 +284,14 @@ function updateMainBody() {
 
 }
 
+function changeSection(section) {
+    console.log('Change section to:'+section.name)
+    currentSection=section
+    removeAllChildNodes(document.querySelector('#main_body'));
+    contentVault.addAllSectionContent(document.querySelector('#main_body'),currentSection);
+    document.querySelector('#tab-label').innerText=section.name;
+}
+
 function saveNewCard() {
     let section=PAGES[document.querySelector('#section-select').value];
     
@@ -318,8 +300,7 @@ function saveNewCard() {
     contentVault.unsavedData=true;
     emptyForm();
     removeAllChildNodes(document.querySelector('#preview'));
-    removeAllChildNodes(document.querySelector('#main_body'));
-    contentVault.addAllSectionContent(document.querySelector('#main_body'),section)
+    changeSection(section);
     //todo: change to contentVault adding and delete newContent
     // return download(JSON.stringify(newContent, null, '\t'), 'newContent')
 }

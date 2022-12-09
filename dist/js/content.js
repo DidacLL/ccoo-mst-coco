@@ -1,12 +1,14 @@
+import {editMode} from "./cocoloader.js";
+
 export const PAGES= Object.freeze([
-    {name:"home",num:0},
-    {name:"comunicados",num:1},
-    {name:"documentos",num:2},
-    {name:"magazines",num:3},
-    {name:"pildoras",num:4},
-    {name:"plantillas",num:5},
-    {name:"tools",num:6},
-    {name:"about",num:7}
+    {name:"Home",num:0},
+    {name:"Comunicados",num:1},
+    {name:"Documentos",num:2},
+    {name:"Magazines",num:3},
+    {name:"Pildoras",num:4},
+    {name:"Plantillas",num:5},
+    {name:"Herramientas",num:6},
+    {name:"Sobre Nosotras",num:7}
 ])
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -115,23 +117,6 @@ export class ContentLoader {
 //----||---------//---------\\---||----\\----||----//-------------------------------------------------------------------
 //----\\\\\\\---//-----------\\--||-----\\---||/////--------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
-export function constructCard(title, card_description, article, img_src,url,section) {
-    if(url!=null){
-        url=url.includes('./')||url.includes('http')?url.trim():'https://'+url.trim();
-    }else {
-        url=null;
-    }
-    console.log('adding new card: '+ title)
-    return new Card(title.trim(),
-        card_description.trim(),
-        article == null ? null : article,
-        img_src.includes("/")?img_src.trim():'./dist/img/'+img_src.trim(),
-        url,
-        section.num+"_"+title.trim().replace(/[^0-9a-zA-Z_]/g, "").toLowerCase(),
-        new Date(),
-        section)
-}
-
 export class Card {
     title;
     card_description;
@@ -144,6 +129,7 @@ export class Card {
     expanded;
     html;
     expandedHtml;
+    listener;
    
     constructor( title,card_description,article,img_src,url,id,date,section) {
         this.title=title;
@@ -171,12 +157,15 @@ export class Card {
             section:this.section
         };
     }
+
     activate() {
         let auxId= (this.expanded?'#ex_card_':'#card_')+this.id
         console.log('activating: '+auxId)
-        document.querySelector(auxId).addEventListener("click", this.url == null ? () => this.expand() : () => this.openLink())
+        this.listener=document.querySelector(auxId).addEventListener("click", this.url == null ? () => this.expand() : () => this.openLink())
     }
     expand(){
+        console.log('click! editMode='+editMode)
+        if(editMode)return this.editCard();
         console.log("EXPANDING: "+this.id)
         let auxId= (this.expanded?'#ex_card_':'#card_')+this.id;
         let oldElem = document.querySelector(auxId);
@@ -202,7 +191,7 @@ export class Card {
     }
     constructHtml(){
         let auxId= 'card_'+ this.id;
-        const urlTag= this.url==null?'':'<div class="btn btn-primary">Abrir</a>\n'
+        const urlTag= this.url==null?'':'<div class="btn btn-primary">Abrir</div>'
         return this.html=`<div id="${auxId}"class="card">
                     <div class="card-header">
                         <img class="card-img-top" src="${this.img_src}" alt="Card image cap">
@@ -235,6 +224,37 @@ export class Card {
         if (this.html) return this.html;
         return this.constructHtml();
     }
+    //--------------------------------------------------------------------------------CARD--EDITION--MODE-------
+    editCard(){
+        console.log("EDITING CARD: "+this.id)
+        let auxId= (this.expanded?'#ex_card_':'#card_')+this.id
+        let htmlId= (this.expanded?'ex_card_':'card_')+this.id
+        let bodyId= auxId + '>.card-body'
+        console.log(document.querySelector(bodyId).innerHTML);
+        const auxCardBody=document.querySelector(bodyId).innerHTML;
+        document.querySelector(bodyId).innerHTML=`
+        <div id="${htmlId}_edit" class="btn btn-primary">Edit</div></div><br>
+        <div id="${htmlId}_delete" class="btn btn-primary">Delete</div><br>
+        <div id="${htmlId}_exit" class="btn btn-primary">Exit</div>
+        `;
+        document.querySelector(auxId+'_edit').addEventListener('click',this.sendCardToForm(auxCardBody),false)
+        document.querySelector(auxId+'_delete').addEventListener('click',this.deleteCard(auxId),false)
+        document.querySelector(auxId+'_exit').addEventListener('click',this.closeEditCard(auxCardBody),false)
+    }
+    sendCardToForm(auxCardBody) {
+        //todo: Call cocoloader.fillForm(card)
+        this.closeEditCard(auxCardBody);
+
+        return undefined;
+    }
+    deleteCard(auxId) {
+        return undefined;
+    }
+
+    closeEditCard(auxCardBody) {
+        return undefined;
+    }
+
 }
 function download(content, fileName) {
     let a = document.createElement("a");
@@ -248,4 +268,20 @@ function cardReviver (key, value) {
         return new Card(value.title, value.card_description, value.article, value.img_src,value.url,value.id,value.date,value.section);
     }
     return value;
+}
+export function constructCard(title, card_description, article, img_src,url,section) {
+    if(url!=null){
+        url=url.includes('./')||url.includes('http')?url.trim():'https://'+url.trim();
+    }else {
+        url=null;
+    }
+    console.log('adding new card: '+ title)
+    return new Card(title.trim(),
+        card_description.trim(),
+        article == null ? null : article,
+        img_src.includes("/")?img_src.trim():'./dist/img/'+img_src.trim(),
+        url,
+        section.num+"_"+title.trim().replace(/[^0-9a-zA-Z_]/g, "").toLowerCase(),
+        new Date(),
+        section)
 }
